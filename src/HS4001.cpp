@@ -1,6 +1,6 @@
 #include "mbed.h"
 #include "HS4001.hpp"
-#define HS4001Address 0b01010100 << 1
+#define HS4001Address 0x54 << 1
 
 HS4001::HS4001(mbed::I2C &i2c) : _i2c(i2c)
 //_alert(PC_12, PinMode::PullNone),
@@ -59,15 +59,22 @@ HS4001::HS4001(mbed::I2C &i2c) : _i2c(i2c)
 
 bool HS4001::getManufacturerId()
 {
+    _i2c.frequency(100000);
     // int registerAddress = ;
     char readCommand=0xD7;
     char data[4];
-    // int rc = _i2c.write(HS4001Address, &readCommand, 1, false); 
     int rc = _i2c.write(HS4001Address, &readCommand, 1, false); 
-    // rc=_i2c.write(registerAddress);
+    int rc = _i2c.write(HS4001Address, &readCommand, 1, false);
+    printf("Failed i2c write and the return value is %d\n",rc);
+    rc = _i2c.write(HS4001Address, &readCommand, 1, false);
+    printf("Failed i2c write and the return value is %d\n",rc);
+    rc = _i2c.write(HS4001Address, &readCommand, 1, false);
+    printf("Failed i2c write and the return value is %d\n",rc);
+    rc = _i2c.write(HS4001Address, &readCommand, 1, false);
+    printf("Failed i2c write and the return value is %d\n",rc);
     if (rc != 0)
     {
-        printf("Failed i2c write\r\n");
+        printf("Failed i2c write and the return value is %d\n",rc);
         // return false;
     }
     rc = _i2c.read(HS4001Address, data, 4);
